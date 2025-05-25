@@ -1,7 +1,7 @@
 import asyncio
 
-from broadcas_server.argument_parser import set_up_arguments
-from broadcas_server.server import BroadcastServer
+from broadcast_server.argument_parser import set_up_arguments
+from broadcast_server.server import BroadcastServer
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
