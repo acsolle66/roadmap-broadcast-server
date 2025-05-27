@@ -55,10 +55,31 @@ On startup, the client connects to the server, sends a verification message (CON
 | --port | Broadcast server port (default: 8888) |
 | --user | Username (default: anonymous) |
 
+## Docker
+### Build the Docker images
+```bash
+# Run the commands from the project root
+docker build -f docker/server/Dockerfile -t broadcast-server .
+docker build -f docker/client/Dockerfile -t broadcast-client .
+```
+### Run the containers
+```bash
+# Create an isolated Docker network so clients can reach the server by name
+docker network create broadcast-net
+
+#Run the server   
+docker run --network broadcast-net --rm -it --name broadcastserver broadcast-server
+
+# Run the client(s) in a separate terminal  
+# Note: --host broadcastserver tells the client to connect to the server container 
+docker run --network broadcast-net --rm -it broadcast-client --host broadcastserver
+```
+⚠️ Make sure to include -it when running the client so interactive input (stdin) works inside the container.
+
 ## ⚠️ Known Limitations
 - Linux-only: The client relies on `sys.stdin.readline()` with run_in_executor, which behaves correctly only on Unix-like systems (Linux). Windows users may experience blocking or undefined behavior.
 
-- Blocking Input: The client uses `run_in_executor()` for terminal input. This operation is not cancellable and will wait indefinitely until input is received.
+- Blocking Input: The client uses `run_in_executor()` for terminal input. This operation is not cancellable and will wait indefinitely until input is received. When exiting the client (e.g., after typing \\exit), you must press Enter to allow the program to cleanly shut down.
 
 ## Example
 
