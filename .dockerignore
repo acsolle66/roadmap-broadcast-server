@@ -1,0 +1,9 @@
+# Ignore Git history and config
+.git
+.gitignore
+
+# Python cache
+__pycache__/
+
+# Environment files
+.venv
